@@ -1,0 +1,30 @@
+[package]
+name = "signals"
+version = "0.1.0"
+edition = "2018"
+
+[[bin]]
+name = "example1"
+path = "src/example1/main.rs"
+
+[[bin]]
+name = "example1nix"
+path = "src/nix/example1nix/main.rs"
+
+[[bin]]
+name = "example2nix"
+path = "src/nix/example2nix/main.rs"
+
+[[bin]]
+name = "example3nix"
+path = "src/nix/example3nix/main.rs"
+
+[[bin]]
+name = "example4nix"
+path = "src/nix/example4nix/main.rs"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+signal-hook = "0.1.16"
+nix = "0.18.0"
