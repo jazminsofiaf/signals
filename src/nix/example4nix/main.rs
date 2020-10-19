@@ -3,7 +3,6 @@ use std::{thread, process, time};
 use std::sync::atomic::{AtomicUsize, Ordering};
 use nix::sys::signal::*;
 
-
 static LAST_SIGNAL: AtomicUsize = AtomicUsize::new(0);
 
 

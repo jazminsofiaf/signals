@@ -23,8 +23,13 @@ path = "src/nix/example3nix/main.rs"
 name = "example4nix"
 path = "src/nix/example4nix/main.rs"
 
+[[bin]]
+name = "example5nix"
+path = "src/nix/example5nix/main.rs"
+
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
 signal-hook = "0.1.16"
 nix = "0.18.0"
+lazy_static = "1.4.0"
