@@ -7,7 +7,7 @@ extern "C" fn handle_sigint(sig_num: i32) {
 } 
 
 extern "C" fn handle_stop(sig_num: i32) {
-    println!("\nCaught a CTRL+Z signal, sig_num: {}", sig_num);
+    println!("\nCaught a CTRL+C signal, sig_num: {}", sig_num);
     std::process::exit(0);
 } 
 
@@ -25,9 +25,9 @@ fn main() {
     
     unsafe {
         // ctr + c
-        let _ctrlc_handler = nix::sys::signal::sigaction(SIGINT, &ignore_action);
+        let _ctrlz_handler = nix::sys::signal::sigaction(SIGINT, &stop_action);
         // ctr + z
-        let _ctrlz_handler = nix::sys::signal::sigaction(SIGTSTP, &stop_action);
+        let _ctrlc_handler = nix::sys::signal::sigaction(SIGTSTP, &ignore_action);
         //  kill -SIGUSR1 <pid>
         let _sigusr1_handler = nix::sys::signal::sigaction(SIGUSR1, &ignore_action);
         //  kill -SIGUSR2 <pid>
