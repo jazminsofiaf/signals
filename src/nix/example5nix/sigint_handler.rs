@@ -1,17 +1,16 @@
 use crate::EventHandler;
 use std::any::Any;
-use lazy_static::lazy_static;
-use std::sync::Mutex;
+use std::sync::atomic::{AtomicBool, Ordering};
 
+static mut GRACEFUL_QUIT: AtomicBool = AtomicBool::new(false);
 
-lazy_static! {
-    static ref GRACEFUL_QUIT: Mutex<bool> = Mutex::new(false);
-}
 
 pub struct SIGINTHandler{ }
 
 extern "C" fn handle_signal(_sig_num: i32) -> (){
-        *GRACEFUL_QUIT.lock().unwrap() = true;
+    unsafe {
+        GRACEFUL_QUIT.store(true, Ordering::Release);
+    }
 }
 
 impl EventHandler for SIGINTHandler {
@@ -21,10 +20,12 @@ impl EventHandler for SIGINTHandler {
     }
     
     fn get_graceful_quit(&self) -> bool{
-        return *GRACEFUL_QUIT.lock().unwrap();   
+        unsafe {
+            return GRACEFUL_QUIT.load(Ordering::Acquire);  
+        } 
     } 
 
     fn get_handler_signal_function(&self) -> extern "C" fn(i32){
-        return handle_signal
+        return handle_signal;
     }
 }

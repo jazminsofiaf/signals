@@ -8,6 +8,10 @@ name = "example1"
 path = "src/example1/main.rs"
 
 [[bin]]
+name = "example2"
+path = "src/example2/main.rs"
+
+[[bin]]
 name = "example1nix"
 path = "src/nix/example1nix/main.rs"
 

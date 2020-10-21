@@ -1,28 +1,32 @@
-use signal_hook::{iterator::Signals, SIGINT, SIGUSR1, SIGUSR2};
-use std::{thread, process, time};
-const SIGTSTP: i32 = 18;
+use std::time::Duration;
+use crossbeam_channel::{bounded, tick, Receiver, select};
+use anyhow::Result;
 
-fn main() {
-    let ctrlc = Signals::new(&[SIGINT, SIGUSR1, SIGUSR2]).unwrap();
-    let ctrlz = Signals::new(&[SIGTSTP]).unwrap();
+fn ctrl_channel() -> Result<Receiver<()>, ctrlc::Error> {
+    let (sender, receiver) = bounded(100);
+    ctrlc::set_handler(move || {
+        let _ = sender.send(());
+    })?;
 
-    let _ctrlc_handler  = thread::spawn(move || {
-        for sig_num in ctrlc.forever() {
-            println!("\nCaught a signal, sig_num: {:?}", sig_num);
-        }
-    });
+    Ok(receiver)
+}
 
-    let _ctrlz_handler  = thread::spawn(move || {
-        for sig_num in ctrlz.forever() {
-            println!("\nCaught a CTRL+Z signal, sig_num: {:?}", sig_num);
-            std::process::exit(0);
-        }
-    });
-
+fn main() -> Result<()> {
+    let ctrl_c_events = ctrl_channel()?;
+    let ticks = tick(Duration::from_secs(1));
 
     loop {
-        println!("My pid is {}", process::id());
-        let two_millis = time::Duration::from_millis(2000);
-        thread::sleep(two_millis);
+        select! {
+            recv(ticks) -> _ => {
+                println!("My pid is {}", process::id());
+            }
+            recv(ctrl_c_events) -> _ => {
+                println!();
+               //Do stuff
+                println!("\nThe process has correctly concluded");
+                break;
+            }
+        }
     }
+    Ok(())
 }

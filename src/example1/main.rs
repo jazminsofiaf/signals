@@ -3,18 +3,18 @@ use std::{thread, process, time};
 const SIGTSTP: i32 = 18;
 
 fn main() {
-    let ctrlc = Signals::new(&[SIGINT, SIGUSR1, SIGUSR2]).unwrap();
-    let ctrlz = Signals::new(&[SIGTSTP]).unwrap();
+    let ctrlc = Signals::new(&[SIGTSTP, SIGUSR1, SIGUSR2]).unwrap();
+    let ctrlz = Signals::new(&[SIGINT]).unwrap();
 
-    let _ctrlc_handler  = thread::spawn(move || {
+    let _ignore_handler  = thread::spawn(move || {
         for sig_num in ctrlc.forever() {
             println!("\nCaught a signal, sig_num: {:?}", sig_num);
         }
     });
 
-    let _ctrlz_handler  = thread::spawn(move || {
+    let _ctrlc_handler  = thread::spawn(move || {
         for sig_num in ctrlz.forever() {
-            println!("\nCaught a CTRL+Z signal, sig_num: {:?}", sig_num);
+            println!("\nCaught a CTRL+C signal, sig_num: {:?}", sig_num);
             std::process::exit(0);
         }
     });
