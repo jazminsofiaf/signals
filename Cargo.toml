@@ -3,9 +3,6 @@ name = "signals"
 version = "0.1.0"
 edition = "2018"
 
-[[bin]]
-name = "example1"
-path = "src/example1/main.rs"
 
 [[bin]]
 name = "example2"
@@ -30,6 +27,10 @@ path = "src/nix/example4nix/main.rs"
 [[bin]]
 name = "example5nix"
 path = "src/nix/example5nix/main.rs"
+
+[[bin]]
+name = "example1hook"
+path = "src/hook/example1/main.rs"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
