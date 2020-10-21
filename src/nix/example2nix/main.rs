@@ -34,7 +34,7 @@ fn main() {
     match fork() {
         Ok(ForkResult::Child) => {
             println!("[child] My PID is {} and my father is {}.",getpid(),getppid());
-
+            
             println!("[child] I'm gonna sleep for a while and then just exit...");
             let two_millis = time::Duration::from_millis(2000);
             thread::sleep(two_millis);

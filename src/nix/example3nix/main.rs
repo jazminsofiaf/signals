@@ -56,8 +56,4 @@ fn main() {
         let two_millis = Duration::from_millis(2000);
         thread::sleep(two_millis);
     }
-
-    
-
- 
 }

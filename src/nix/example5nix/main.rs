@@ -9,11 +9,12 @@ use crate::signal_handler::SignalHandler;
 
 use std::{thread, process, time};  
 
+const SIGINT_NUM: i32 = 2;
 
 fn main() {
 
 
-    let registered_signal_handler: Box<dyn EventHandler> = SignalHandler::register_handler(2, Box::new(SIGINTHandler {}));
+    let registered_signal_handler: Box<dyn EventHandler> = SignalHandler::register_handler(SIGINT_NUM, Box::new(SIGINTHandler {}));
 
     let sigint_handler: &SIGINTHandler = match registered_signal_handler.as_any().downcast_ref::<SIGINTHandler>() {
         Some(b) => b,
