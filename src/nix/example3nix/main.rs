@@ -28,7 +28,7 @@ fn stop_process(pid: Pid) -> Result<(), io::Error> {
 
 
 extern "C" fn handle_sigint(sig_num: i32) {
-    println!("\nCaught a CTRL+C signal, sig_num: {}", sig_num);
+    println!("\nCaught a signal, sig_num: {}", sig_num);
     std::process::exit(0);  
 } 
 

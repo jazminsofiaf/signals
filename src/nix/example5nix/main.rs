@@ -17,7 +17,7 @@ fn main() {
     let registered_signal_handler: Box<dyn EventHandler> = SignalHandler::register_handler(SIGINT_NUM, Box::new(SIGINTHandler {}));
 
     let sigint_handler: &SIGINTHandler = match registered_signal_handler.as_any().downcast_ref::<SIGINTHandler>() {
-        Some(b) => b,
+        Some(sigint_handler) => sigint_handler,
         None => panic!("cast error"),
     };
 

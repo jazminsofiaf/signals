@@ -37,4 +37,3 @@ path = "src/hook/example1/main.rs"
 [dependencies]
 signal-hook = "0.1.16"
 nix = "0.18.0"
-lazy_static = "1.4.0"
